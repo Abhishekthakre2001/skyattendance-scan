@@ -1,0 +1,15 @@
+.profile{
+    position: absolute;
+    top: 130px;
+    left: 0%;
+    right: 20px;
+    text-align: center
+}
+@import url('https://fonts.googleapis.com/css2?family=Sedan+SC&display=swap');
+.profile h2{
+    font-family: "Sedan SC", serif;
+    font-size: 20px;
+}
+.profile img{
+    border: 3px solid red;
+}

@@ -1,4 +1,4 @@
-.App {
+/* .App {
   text-align: center;
 }
 
@@ -35,4 +35,13 @@
   to {
     transform: rotate(360deg);
   }
+} */
+.scanpageimgae{
+  position: absolute;
+   top:250px;
+}
+.loginbutton{
+  position: absolute;
+   top: 400px;
+    left:40%;
 }

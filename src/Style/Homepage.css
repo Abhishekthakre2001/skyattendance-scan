@@ -1,0 +1,22 @@
+.box{
+  position: relative;
+    height: 100vh;
+    border-radius: 10px;
+    background-color:antiquewhite;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+}
+.logo{
+    position: absolute;
+    top: 50px;
+    left: 30%;
+}
+.profile{
+    position: absolute;
+    top: 150px;
+    left: 25%;
+}
+.profile img{
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+}
