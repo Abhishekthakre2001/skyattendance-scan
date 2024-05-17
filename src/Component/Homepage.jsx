@@ -77,7 +77,7 @@ console.log("first",position)
                                     <img src={logo} alt="" />
                                 </div>
                                 <Profile />
-                                <Form {...queryParams} locationName={locationName} />
+                                <Form {...queryParams} locationName={locationName} position={position} />
                             </>
                         )}
                        

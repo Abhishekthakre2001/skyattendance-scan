@@ -6,7 +6,7 @@ export default function Form(props) {
 
 
 
-    console.log('dataaaa',props.date)
+    console.log('dataaaa',props.position.latitude)
     return (
         <>
             <div className="form">
@@ -57,7 +57,7 @@ export default function Form(props) {
                         className="form-control"
                         aria-label="Small"
                         aria-describedby="inputGroup-sizing-sm"
-                        value={props.latitude}
+                        value={props.position.latitude}
                         disabled
                     />
                 </div>
@@ -74,7 +74,7 @@ export default function Form(props) {
                         className="form-control"
                         aria-label="Small"
                         aria-describedby="inputGroup-sizing-sm"
-                        value={props.longitude}
+                        value={props.position.longitude}
                         disabled
                     />
                 </div>
