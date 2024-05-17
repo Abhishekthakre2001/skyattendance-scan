@@ -11,7 +11,7 @@ import Profile from './Profile';
 
 export default function Homepage() {
     const location = useLocation(); // Get the current location (pathname + search)
-    const { user, isAuthenticated, isLoading } = useAuth0();
+    const { user, isAuthenticated } = useAuth0();
     const [queryParams, setQueryParams] = useState({
         date: '',
         time: '',
