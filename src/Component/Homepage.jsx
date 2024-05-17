@@ -63,7 +63,7 @@ export default function Homepage() {
     };
 
     console.log("data", queryParams);
-
+console.log("first",position)
     const { isAuthenticated } = useAuth0();
     return (
         <>
