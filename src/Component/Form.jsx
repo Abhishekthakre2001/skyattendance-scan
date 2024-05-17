@@ -1,7 +1,11 @@
 import React from 'react';
 import '../Style/Form.css';
+// import 
 
 export default function Form(props) {
+
+
+
     console.log('dataaaa',props.date)
     return (
         <>
@@ -14,7 +18,6 @@ export default function Form(props) {
                     </div>
                     <input
                     style={{ backgroundColor:'white'}}
-
                         disabled
                         type="text"
                         className="form-control"
