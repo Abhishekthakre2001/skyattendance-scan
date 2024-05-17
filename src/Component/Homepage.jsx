@@ -11,6 +11,7 @@ import Profile from './Profile';
 
 export default function Homepage() {
     const location = useLocation(); // Get the current location (pathname + search)
+    const { user, isAuthenticated, isLoading } = useAuth0();
     const [queryParams, setQueryParams] = useState({
         date: '',
         time: '',
@@ -62,9 +63,10 @@ export default function Homepage() {
         }
     };
 
-    console.log("data", queryParams);
-console.log("first",position)
-    const { isAuthenticated } = useAuth0();
+    // console.log("data", queryParams);
+// console.log("userdata",user)
+   
+   
     return (
         <>
             <div className="container hp">
@@ -77,7 +79,7 @@ console.log("first",position)
                                     <img src={logo} alt="" />
                                 </div>
                                 <Profile />
-                                <Form {...queryParams} locationName={locationName} position={position} />
+                                <Form {...queryParams} locationName={locationName} position={position} user={user}/>
                             </>
                         )}
                        
