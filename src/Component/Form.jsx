@@ -90,6 +90,7 @@ export default function Form(props) {
     return (
         <>
             <div className="form" >
+            <ToastContainer />
                 <div className="input-group input-group-sm mb-3">
                     <div className="input-group-prepend">
                         <span className="input-group-text" id="inputGroup-sizing-sm">
@@ -198,7 +199,7 @@ export default function Form(props) {
                     <button type="button" className="btn btn-primary buttons" onClick={clockin} style={{ display: displaybuttonin }}>Clock In</button>
                     <button type="button" className="btn btn-primary buttons" onClick={clock_out} style={{ display: displaybuttonout }} >Clock out</button>
                 </div>
-                <ToastContainer />
+               
             </div>
 
         </>
