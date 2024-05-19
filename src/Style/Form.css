@@ -4,7 +4,8 @@
     width: 90%;
 }
 .buttons{
-    margin: 0px 15px;
+    margin: 15px 0px;
+    width: 100%;
 }
 input{
     background-color: white;

@@ -1,67 +1,81 @@
-import React from 'react';
+// import React, { useState, useEffect } from 'react';
 import '../Style/Form.css';
-// import axios from 'react';
+import axios from 'axios';
 
 
 export default function Form(props) {
     var today = new Date(),
-    todaydate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+        todaydate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
     var hours = today.getHours();
-    var ampm =  (hours >= 12) ? "PM" : "AM";
-    var clockout = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds() + ' ' +ampm;
-
+    var ampm = (hours >= 12) ? "PM" : "AM";
+    var clockout = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds() + ' ' + ampm;
+console.log(clockout)
     var attendance = (clockout <= '09:30:00') ? "PRESENT" : "LATE";
-    
+
+    const displaybuttonin = (clockout <= '02:00:00 PM') ? "none" : "block" ;
+    // const displaybuttonout = (clockout >= '02:00:00 PM') ? "none" : "block" ;
+    const displaybuttonout = "block"
 
     const clockindata = {
-                email:props.user.email,
-                name:props.user.name,
-                clockin:props.date,
-                clockout:'02.00',
-                image:props.user.picture,
-                attendance:attendance,  
-                date:todaydate,
-                day:props.time,
-                latitude:props.position.latitude,
-                longitude:props.position.longitude,
-                location:props.locationName,
-                
-            }
+        email: props.user.email,
+        name: props.user.name,
+        clockin: props.date,
+        clockout: '02.00',
+        image: props.user.picture,
+        attendance: attendance,
+        date: todaydate,
+        day: props.time,
+        latitude: props.position.latitude,
+        longitude: props.position.longitude,
+        location: props.locationName,
 
-            const clockoutdata = {
-                email:props.user.email,
-                clockout:clockout,
-            }
-            console.log("Checkin data",clockindata);
-            console.log("Checkout data",clockoutdata)
+    }
+
+    const clockoutdata = {
+        email: props.user.email,
+        clockout: clockout,
+    }
+    console.log("Checkin data", clockindata);
+    console.log("Checkout data", clockoutdata)
 
 
-// const clockin = async () => {
-//     const data = {
-//         email:props.user.email,
-//         name:props.user.name,
-//         clockin:props.date,
-//         clockout:'02.00',
-//         image:props.user.picture,
-//         attendance:'P',  
-//         date:todaydate,
-//         day:props.time,
-//         latitude:props.position.latitude,
-//         longitude:props.position.longitude,
-//         location:props.locationName,
-//     }
-//     try{
-// const savedata = await axios.POST(`http://localhost:3000/clockin`,data)
-// .then((response) => console.log(response))
-//     .catch((error) => console.log(error));
-//     }
+  
+    const clockin = async () => {
+        try {
+            const savedata = await axios.post('http://localhost:7000/clockin', clockindata);
+            console.log('Data saved successfully:', savedata);
+        } catch (error) {
+            console.error('Error clocking in:', error);
+        }
+    };
+    
+    const clock_out = async () =>{
+        try{
+            const updatedata = await axios.put('http://localhost:7000/clockout', clockoutdata);
+            console.log("clockoutdone",updatedata);
+        }
+        catch(error){
+            console.log(error);
+        }
+    }
+    // const alldata = async () =>{
+    //     try{
+    //         const getdata = await axios.get('http://localhost:7000/attendance');
+    //         console.log("attendance data",getdata.data.result.map(record => record.email));
+    //         console.log("attendance",getdata.data.result.map(record => record.date));
+    //     }catch(error){
+    //         console.log("data not get")
+    //     }
+    // }
+    // useEffect(() => {
+    //     alldata();
+    // }, []);
 
-// }
-// console.log('dataaaa',props.user.picture)
-    // console.log('dataaaa',props.user)
+    // const clockbutton = ( )
+
     return (
         <>
-            <div className="form">
+            <div className="form" >
                 <div className="input-group input-group-sm mb-3">
                     <div className="input-group-prepend">
                         <span className="input-group-text" id="inputGroup-sizing-sm">
@@ -69,17 +83,17 @@ export default function Form(props) {
                         </span>
                     </div>
                     <input
-                    style={{ backgroundColor:'white'}}
+                        style={{ backgroundColor: 'white' }}
                         disabled
                         type="text"
                         className="form-control"
                         aria-label="Small"
                         aria-describedby="inputGroup-sizing-sm"
                         value={todaydate}
-                        
+
                     />
                 </div>
-                
+
                 <div className="input-group input-group-sm mb-3">
                     <div className="input-group-prepend">
                         <span className="input-group-text" id="inputGroup-sizing-sm">
@@ -87,25 +101,25 @@ export default function Form(props) {
                         </span>
                     </div>
                     <input
-                    style={{ backgroundColor:'white'}}
+                        style={{ backgroundColor: 'white' }}
                         disabled
                         type="text"
                         className="form-control"
                         aria-label="Small"
                         aria-describedby="inputGroup-sizing-sm"
                         value={props.date}
-                        
+
                     />
                 </div>
 
                 <div className="input-group input-group-sm mb-3">
                     <div className="input-group-prepend">
                         <span className="input-group-text" id="inputGroup-sizing-sm">
-                        Day
+                            Day
                         </span>
                     </div>
                     <input
-                    style={{ backgroundColor:'white'}}
+                        style={{ backgroundColor: 'white' }}
                         type="text"
                         className="form-control"
                         aria-label="Small"
@@ -122,7 +136,7 @@ export default function Form(props) {
                         </span>
                     </div>
                     <input
-                    style={{ backgroundColor:'white'}}
+                        style={{ backgroundColor: 'white' }}
                         type="text"
                         className="form-control"
                         aria-label="Small"
@@ -139,7 +153,7 @@ export default function Form(props) {
                         </span>
                     </div>
                     <input
-                    style={{ backgroundColor:'white'}}
+                        style={{ backgroundColor: 'white' }}
                         type="text"
                         className="form-control"
                         aria-label="Small"
@@ -156,7 +170,7 @@ export default function Form(props) {
                         </span>
                     </div>
                     <input
-                    style={{ backgroundColor:'white'}}
+                        style={{ backgroundColor: 'white' }}
                         type="text"
                         className="form-control"
                         aria-label="Small"
@@ -165,10 +179,10 @@ export default function Form(props) {
                         disabled
                     />
                 </div>
-               
+
                 <div className="buttons" >
-                <button type="button" className="btn btn-primary buttons">Clock In</button>
-                <button type="button" className="btn btn-primary buttons">Clock out</button>
+                    <button type="button" className="btn btn-primary buttons" onClick={clockin} style={{ display:displaybuttonin}}>Clock In</button>
+                    <button type="button" className="btn btn-primary buttons" onClick={clock_out} style={{ display:displaybuttonout}} >Clock out</button>
                 </div>
             </div>
 
