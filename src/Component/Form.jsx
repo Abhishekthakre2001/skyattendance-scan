@@ -1,6 +1,8 @@
 // import React, { useState, useEffect } from 'react';
 import '../Style/Form.css';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export default function Form(props) {
@@ -9,12 +11,12 @@ export default function Form(props) {
     var hours = today.getHours();
     var ampm = (hours >= 12) ? "PM" : "AM";
     var clockout = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds() + ' ' + ampm;
-console.log(clockout)
+    console.log(clockout)
     var attendance = (clockout <= '09:30:00') ? "PRESENT" : "LATE";
 
-    const displaybuttonin = (clockout <= '02:00:00 PM') ? "none" : "block" ;
-    // const displaybuttonout = (clockout >= '02:00:00 PM') ? "none" : "block" ;
-    const displaybuttonout = "block"
+    const displaybuttonin = (clockout <= '02:00:00 PM') ? "none" : "block";
+    const displaybuttonout = (clockout >= '02:00:00 PM') ? "none" : "block";
+    // const displaybuttonout = "block"
 
     const clockindata = {
         email: props.user.email,
@@ -39,23 +41,35 @@ console.log(clockout)
     console.log("Checkout data", clockoutdata)
 
 
-  
+
     const clockin = async () => {
         try {
             const savedata = await axios.post('http://localhost:7000/clockin', clockindata);
             console.log('Data saved successfully:', savedata);
+            toast.success("Clock IN Success !", {
+                position: toast.POSITION.BOTTOM_CENTER,
+              });
         } catch (error) {
             console.error('Error clocking in:', error);
+            toast.error("Oops Slow Network !", {
+                position: toast.POSITION.BOTTOM_CENTER,
+              });
         }
     };
-    
-    const clock_out = async () =>{
-        try{
+
+    const clock_out = async () => {
+        try {
             const updatedata = await axios.put('http://localhost:7000/clockout', clockoutdata);
-            console.log("clockoutdone",updatedata);
+            console.log("clockoutdone", updatedata);
+            toast.success("Clock OUT Success !", {
+                position: toast.POSITION.BOTTOM_CENTER,
+              });
         }
-        catch(error){
+        catch (error) {
             console.log(error);
+            toast.error("Oops Slow Network !", {
+                position: toast.POSITION.BOTTOM_CENTER,
+              });
         }
     }
     // const alldata = async () =>{
@@ -181,9 +195,10 @@ console.log(clockout)
                 </div>
 
                 <div className="buttons" >
-                    <button type="button" className="btn btn-primary buttons" onClick={clockin} style={{ display:displaybuttonin}}>Clock In</button>
-                    <button type="button" className="btn btn-primary buttons" onClick={clock_out} style={{ display:displaybuttonout}} >Clock out</button>
+                    <button type="button" className="btn btn-primary buttons" onClick={clockin} style={{ display: displaybuttonin }}>Clock In</button>
+                    <button type="button" className="btn btn-primary buttons" onClick={clock_out} style={{ display: displaybuttonout }} >Clock out</button>
                 </div>
+                <ToastContainer />
             </div>
 
         </>
