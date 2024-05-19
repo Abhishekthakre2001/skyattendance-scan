@@ -46,36 +46,10 @@ export default function Form(props) {
         try {
             const savedata = await axios.post('http://localhost:7000/clockin', clockindata);
             console.log('Data saved successfully:', savedata);
-            // toast.success("Clock IN Success !", {
-            //     position: toast.bottom-center,
-            //   });
-            toast.success('⏰ ClockIN Done!', {
-                position: "bottom-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-                transition: Bounce,
-                });
+            toast.success("Clock IN Success !");
         } catch (error) {
             console.error('Error clocking in:', error);
-            // toast.error("Oops Slow Network !", {
-            //     position: toast.bottom-center,
-            //   });
-            toast.error('📶 Network Slow!', {
-                position: "bottom-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-                transition: Bounce,
-                });
+            toast.error("Oops Slow Network !");
         }
     };
 
@@ -83,34 +57,11 @@ export default function Form(props) {
         try {
             const updatedata = await axios.put('http://localhost:7000/clockout', clockoutdata);
             console.log("clockoutdone", updatedata);
-            // toast.success("Clock OUT Success !", {
-            //     position: toast.bottom-center,
-            //   });
-            toast.success('⏰ ClockOut Done!', {
-                position: "bottom-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-                transition: Bounce,
-                });
+            toast.success("Clock OUT Success !");
         }
         catch (error) {
             console.log(error);
-            toast.error('📶 Network Slow!', {
-                position: "bottom-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-                transition: Bounce,
-                });
+            toast.error("Oops Slow Network !" );
         }
     }
     // const alldata = async () =>{
