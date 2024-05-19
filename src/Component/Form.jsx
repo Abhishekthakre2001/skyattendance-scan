@@ -1,22 +1,22 @@
-// import React, { useState, useEffect } from 'react';
+import React from 'react';
 import '../Style/Form.css';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-
 export default function Form(props) {
-    var today = new Date(),
-        todaydate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-    var hours = today.getHours();
-    var ampm = (hours >= 12) ? "PM" : "AM";
-    var clockout = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds() + ' ' + ampm;
-    console.log(clockout)
-    var attendance = (clockout <= '09:30:00') ? "PRESENT" : "LATE";
+    const today = new Date();
+    const todaydate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+    const hours = today.getHours();
+    const ampm = (hours >= 12) ? "PM" : "AM";
+    const minutes = today.getMinutes().toString().padStart(2, '0');
+    const seconds = today.getSeconds().toString().padStart(2, '0');
+    const clockout = hours + ':' + minutes + ':' + seconds + ' ' + ampm;
+
+    const attendance = (clockout <= '09:30:00') ? "PRESENT" : "LATE";
 
     const displaybuttonin = (clockout <= '02:00:00 PM') ? "none" : "block";
     const displaybuttonout = (clockout >= '02:00:00 PM') ? "none" : "block";
-    // const displaybuttonout = "block"
 
     const clockindata = {
         email: props.user.email,
@@ -30,17 +30,12 @@ export default function Form(props) {
         latitude: props.position.latitude,
         longitude: props.position.longitude,
         location: props.locationName,
-
     }
 
     const clockoutdata = {
         email: props.user.email,
         clockout: clockout,
     }
-    console.log("Checkin data", clockindata);
-    console.log("Checkout data", clockoutdata)
-
-
 
     const clockin = async () => {
         try {
@@ -48,12 +43,12 @@ export default function Form(props) {
             console.log('Data saved successfully:', savedata);
             toast.success("Clock IN Success !", {
                 position: toast.POSITION.BOTTOM_CENTER,
-              });
+            });
         } catch (error) {
             console.error('Error clocking in:', error);
             toast.error("Oops Slow Network !", {
                 position: toast.POSITION.BOTTOM_CENTER,
-              });
+            });
         }
     };
 
@@ -63,34 +58,19 @@ export default function Form(props) {
             console.log("clockoutdone", updatedata);
             toast.success("Clock OUT Success !", {
                 position: toast.POSITION.BOTTOM_CENTER,
-              });
-        }
-        catch (error) {
+            });
+        } catch (error) {
             console.log(error);
             toast.error("Oops Slow Network !", {
                 position: toast.POSITION.BOTTOM_CENTER,
-              });
+            });
         }
     }
-    // const alldata = async () =>{
-    //     try{
-    //         const getdata = await axios.get('http://localhost:7000/attendance');
-    //         console.log("attendance data",getdata.data.result.map(record => record.email));
-    //         console.log("attendance",getdata.data.result.map(record => record.date));
-    //     }catch(error){
-    //         console.log("data not get")
-    //     }
-    // }
-    // useEffect(() => {
-    //     alldata();
-    // }, []);
-
-    // const clockbutton = ( )
 
     return (
         <>
-            <div className="form" >
-            <ToastContainer />
+            <div className="form">
+                <ToastContainer />
                 <div className="input-group input-group-sm mb-3">
                     <div className="input-group-prepend">
                         <span className="input-group-text" id="inputGroup-sizing-sm">
@@ -105,7 +85,6 @@ export default function Form(props) {
                         aria-label="Small"
                         aria-describedby="inputGroup-sizing-sm"
                         value={todaydate}
-
                     />
                 </div>
 
@@ -123,7 +102,6 @@ export default function Form(props) {
                         aria-label="Small"
                         aria-describedby="inputGroup-sizing-sm"
                         value={props.date}
-
                     />
                 </div>
 
@@ -195,13 +173,11 @@ export default function Form(props) {
                     />
                 </div>
 
-                <div className="buttons" >
+                <div className="buttons">
                     <button type="button" className="btn btn-primary buttons" onClick={clockin} style={{ display: displaybuttonin }}>Clock In</button>
-                    <button type="button" className="btn btn-primary buttons" onClick={clock_out} style={{ display: displaybuttonout }} >Clock out</button>
+                    <button type="button" className="btn btn-primary buttons" onClick={clock_out} style={{ display: displaybuttonout }}>Clock out</button>
                 </div>
-               
             </div>
-
         </>
     )
 }
