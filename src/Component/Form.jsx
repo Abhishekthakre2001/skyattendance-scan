@@ -257,17 +257,18 @@ export default function Form(props) {
 
 
                     
-                    <div class="grid-2">
-                        <button class="color-c circule"><MdOutlineAccessTime style={{ fontSize:'30px'}}/></button>
-                        <h2 class="title-2">{props.date}</h2>
-                        <p class="followers">Date Time</p>
-                    </div>
+                    
                     <div class="grid-2">
                         <button class="color-b circule">
                         <MdOutlineCalendarToday style={{ fontSize:'30px'}}/>
                         </button>
                         <h2 class="title-2">{props.time}</h2>
                         <p class="followers">Day</p>
+                    </div>
+                    <div class="grid-2">
+                        <button class="color-c circule"><MdOutlineAccessTime style={{ fontSize:'30px'}}/></button>
+                        <h2 class="title-2">{props.date}</h2>
+                        <p class="followers">Date Time</p>
                     </div>
                     <div class="grid-2">
                         <button class="color-d circule"><CiLocationOn style={{ fontSize:'30px'}}/></button>

@@ -1,9 +1,8 @@
 .profile {
     position: absolute;
-    top: 130px;
-    left: 0%;
-    right: 20px;
-    text-align: center
+    top: 160px;
+    text-align: center;
+    left: 112px
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Sedan+SC&display=swap');

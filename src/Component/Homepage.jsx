@@ -56,7 +56,7 @@ export default function Homepage() {
             );
             const data = await response.json();
             console.log(data.address.neighbourhood)
-            setLocationName(data.address.neighbourhood || 'Location: Not found');
+            setLocationName(data.address.neighbourhood || 'Not found');
         } catch (error) {
             console.error('Error fetching location:', error);
             setLocationName(' Network Slow ');
