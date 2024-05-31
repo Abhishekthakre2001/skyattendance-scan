@@ -3,7 +3,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { useLocation } from 'react-router-dom';
 import queryString from 'query-string';
 import '../Style/Homepage.css';
-import logo from '../asset/logo.png';
+
 import Form from '../Component/Form';
 import Login from './Login';
 import Logout from './Logout';
