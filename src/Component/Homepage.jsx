@@ -63,8 +63,7 @@ export default function Homepage() {
         }
     };
 
-    // console.log("data", queryParams);
-// console.log("userdata",user)
+   
    
    
     return (
@@ -72,14 +71,14 @@ export default function Homepage() {
             <div className="container hp">
                 <div className="row">
                     <div className="col-12 col-lg-4 offset-lg-4 box">
-                        {isAuthenticated ? <Logout /> : <Login />}
+                      {isAuthenticated ? <Logout /> : <Login />} 
                         {isAuthenticated && (
                             <>
-                                <div className="logo">
+                                {/* <div className="logo">
                                     <img src={logo} alt="" />
-                                </div>
-                                <Profile />
-                                <Form {...queryParams} locationName={locationName} position={position} user={user}/>
+                                </div> */}
+                                <Profile /> 
+                                <Form {...queryParams} locationName={locationName} position={position} user={user}/> 
                             </>
                         )}
                        

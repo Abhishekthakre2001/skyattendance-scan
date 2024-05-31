@@ -1,6 +1,6 @@
-.form{
+/* .form{
     position: absolute;
-    top: 350px;
+ top: 290px;;
     width: 90%;
 }
 .buttons{
@@ -9,4 +9,82 @@
 }
 input{
     background-color: white;
+} */
+
+.top{
+    margin-top:16px;
+  }
+  .color-a{
+    background: linear-gradient(to top right, #8162CE, #F54BA5);
+  }
+.button{
+
+    top: 320px;
+    left: 125px;
+    position: absolute;
 }
+  .btn{
+    top: 345px;
+    left: 125px;
+    position: absolute;
+    border:none;
+    height:40px;
+    color:#ffffff;
+    width:35%;
+    font-size:16px;
+    border-radius:30px;
+    box-shadow: 0 13px 26px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.16);
+  }
+  .btn:hover{
+    border:solid 1px #DA59B1;
+    height:40px;
+    font-family: Roboto;
+    color: #DA59B1;
+    background:#ffffff;
+    width:35%;
+    border-color: linear-gradient(to top right, #8162CE, #F54BA5);;
+    border-radius:30px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.16);
+  }
+
+  .circule{
+    margin-left: 5px;
+    border-radius:50%;
+    border:none;
+    height:60px;
+    width:60px;
+    color:#ffffff;
+    box-shadow: 0 13px 26px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.16);
+    
+    }
+    .color-b{
+        background: linear-gradient(to bottom right, #C90A6D, #FF48A0);
+      }
+      .title-2{
+        color:#2D354A;
+        font-family: roboto;
+        weight:300;
+        margin-top: 15px;
+        font-size: 17px;
+      }
+      .followers{
+        color:#666B7D;
+        font-family:10px;
+        /* margin-top:340px; */
+        font-family: roboto;
+        weight:100;
+      }
+      .color-c{
+        background: linear-gradient(to bottom right, #5E5AEC, #3F9EFC);
+      }
+      .color-d{
+        background: linear-gradient(to bottom right, #6452E9, #639FF9);
+      }
+      .newformui{
+        display: flex;
+    gap: 50px;
+    position: absolute;
+    top: 460px;
+    margin: 0px 15px;
+    /* left: 56px; */
+      }        

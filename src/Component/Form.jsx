@@ -1,22 +1,59 @@
 // import React, { useState, useEffect } from 'react';
 import '../Style/Form.css';
 import axios from 'axios';
+import { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import { MdOutlineCalendarToday } from "react-icons/md";
+import { MdOutlineAccessTime } from "react-icons/md";
+import { CiLocationOn } from "react-icons/ci";
 
 export default function Form(props) {
-    var today = new Date(),
-        todaydate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-    var hours = today.getHours();
-    var ampm = (hours >= 12) ? "PM" : "AM";
-    var clockout = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds() + ' ' + ampm;
-    console.log(clockout)
-    var attendance = (clockout <= '09:30:00') ? "PRESENT" : "LATE";
+    let today = new Date();
+    let todaydate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
 
-    const displaybuttonin = (clockout <= '02:00:00 PM') ? "none" : "block";
-    const displaybuttonout = (clockout >= '02:00:00 PM') ? "none" : "block";
-    // const displaybuttonout = "block"
+    let hours = today.getHours();
+    let minutes = today.getMinutes();
+    let seconds = today.getSeconds();
+    let ampm = (hours >= 12) ? "PM" : "AM";
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    seconds = seconds < 10 ? '0' + seconds : seconds;
+    let clockout = hours + ':' + minutes + ':' + seconds + ' ' + ampm;
+
+    console.log("newtime", clockout);
+    const [usertime, setusertime] = useState('');
+
+    // var attendance = (clockout <= usertime) ? "PRESENT" : "LATE";
+    // Function to convert time to seconds
+    function convertTimeToSeconds(time) {
+        let [timePart, modifier] = time.split(' ');
+        let [hours, minutes, seconds] = timePart.split(':');
+        hours = parseInt(hours);
+        minutes = parseInt(minutes);
+        seconds = parseInt(seconds);
+
+        if (modifier === 'PM' && hours < 12) {
+            hours += 12;
+        } else if (modifier === 'AM' && hours === 12) {
+            hours = 0;
+        }
+
+        return (hours * 3600) + (minutes * 60) + seconds;
+    }
+
+    let clockoutSeconds = convertTimeToSeconds(clockout);
+    let usertimeSeconds = convertTimeToSeconds(usertime);
+    console.log("all second" + usertimeSeconds)
+    console.log("all second" + clockoutSeconds)
+
+    let attendance = (clockoutSeconds <= usertimeSeconds) ? "PRESENT" : "LATE";
+
+    console.log("Attendance: " + attendance);
+
+    const [buttonstetus, setbuttonstetus] = useState(false);
+    const [buttondisplay, setbuttondisplay] = useState('block')
 
     const clockindata = {
         email: props.user.email,
@@ -41,12 +78,12 @@ export default function Form(props) {
     console.log("Checkout data", clockoutdata)
 
 
-
     const clockin = async () => {
         try {
             const savedata = await axios.post('http://localhost:7000/clockin', clockindata);
             console.log('Data saved successfully:', savedata);
             toast.success("Clock IN Success !");
+            button();
         } catch (error) {
             console.error('Error clocking in:', error);
             toast.error("Oops Slow Network !");
@@ -58,32 +95,51 @@ export default function Form(props) {
             const updatedata = await axios.put('http://localhost:7000/clockout', clockoutdata);
             console.log("clockoutdone", updatedata);
             toast.success("Clock OUT Success !");
+            setbuttondisplay('none')
         }
         catch (error) {
             console.log(error);
-            toast.error("Oops Slow Network !" );
+            toast.error("Oops Slow Network !");
         }
     }
-    // const alldata = async () =>{
-    //     try{
-    //         const getdata = await axios.get('http://localhost:7000/attendance');
-    //         console.log("attendance data",getdata.data.result.map(record => record.email));
-    //         console.log("attendance",getdata.data.result.map(record => record.date));
-    //     }catch(error){
-    //         console.log("data not get")
-    //     }
-    // }
-    // useEffect(() => {
-    //     alldata();
-    // }, []);
 
-    // const clockbutton = ( )
 
+    const getusertime = async () => {
+        const email = props.user.email;
+
+        console.log("first", todaydate);
+
+        try {
+            const getuserdata = await axios.get(`http://localhost:7000/getusertime?email=${email}`);
+            console.log("getusertime", getuserdata.data.result[0].time);
+            console.log(clockout)
+            setusertime(getuserdata.data.result[0].time);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    getusertime();
+
+    const button = async () => {
+        const email = props.user.email;
+
+        console.log("first", todaydate);
+
+        try {
+            const getuserdata = await axios.get(`http://localhost:7000/button?email=${email}&date=${todaydate}`);
+            console.log("button", getuserdata.data.result[0].clockout);
+            setbuttonstetus(true)
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    button();
     return (
         <>
             <div className="form" >
-            <ToastContainer />
-                <div className="input-group input-group-sm mb-3">
+                <ToastContainer />
+                {/* <div className="input-group input-group-sm mb-3">
                     <div className="input-group-prepend">
                         <span className="input-group-text" id="inputGroup-sizing-sm">
                             Date
@@ -99,9 +155,9 @@ export default function Form(props) {
                         value={todaydate}
 
                     />
-                </div>
+                </div> */}
 
-                <div className="input-group input-group-sm mb-3">
+                {/* <div className="input-group input-group-sm mb-3">
                     <div className="input-group-prepend">
                         <span className="input-group-text" id="inputGroup-sizing-sm">
                             Time
@@ -117,9 +173,9 @@ export default function Form(props) {
                         value={props.date}
 
                     />
-                </div>
+                </div> */}
 
-                <div className="input-group input-group-sm mb-3">
+                {/* <div className="input-group input-group-sm mb-3">
                     <div className="input-group-prepend">
                         <span className="input-group-text" id="inputGroup-sizing-sm">
                             Day
@@ -134,9 +190,9 @@ export default function Form(props) {
                         value={props.time}
                         disabled
                     />
-                </div>
+                </div> */}
 
-                <div className="input-group input-group-sm mb-3">
+                {/* <div className="input-group input-group-sm mb-3">
                     <div className="input-group-prepend">
                         <span className="input-group-text" id="inputGroup-sizing-sm">
                             Lati.
@@ -151,9 +207,9 @@ export default function Form(props) {
                         value={props.position.latitude}
                         disabled
                     />
-                </div>
+                </div> */}
 
-                <div className="input-group input-group-sm mb-3">
+                {/* <div className="input-group input-group-sm mb-3">
                     <div className="input-group-prepend">
                         <span className="input-group-text" id="inputGroup-sizing-sm">
                             Lon.
@@ -168,9 +224,9 @@ export default function Form(props) {
                         value={props.position.longitude}
                         disabled
                     />
-                </div>
+                </div> */}
 
-                <div className="input-group input-group-sm mb-3">
+                {/* <div className="input-group input-group-sm mb-3">
                     <div className="input-group-prepend">
                         <span className="input-group-text" id="inputGroup-sizing-sm">
                             Loca.
@@ -185,14 +241,44 @@ export default function Form(props) {
                         value={props.locationName}
                         disabled
                     />
-                </div>
+                </div> */}
 
                 <div className="buttons" >
-                    <button type="button" className="btn btn-primary buttons" onClick={clockin} style={{ display: displaybuttonin }}>Clock In</button>
-                    <button type="button" className="btn btn-primary buttons" onClick={clock_out} style={{ display: displaybuttonout }} >Clock out</button>
+
+                    {
+                        (buttonstetus === true) ? <button class="btn color-a top" onClick={clock_out} style={{ display: buttondisplay }} > Clock Out</button> : <button class="btn color-a top" onClick={clockin} style={{ display: buttondisplay }} > Clock In</button>
+
+                    }
+                    <hr class="hr-2" />
                 </div>
-               
+
+
+                <div className="newformui">
+
+
+                    
+                    <div class="grid-2">
+                        <button class="color-c circule"><MdOutlineAccessTime style={{ fontSize:'30px'}}/></button>
+                        <h2 class="title-2">{props.date}</h2>
+                        <p class="followers">Date Time</p>
+                    </div>
+                    <div class="grid-2">
+                        <button class="color-b circule">
+                        <MdOutlineCalendarToday style={{ fontSize:'30px'}}/>
+                        </button>
+                        <h2 class="title-2">{props.time}</h2>
+                        <p class="followers">Day</p>
+                    </div>
+                    <div class="grid-2">
+                        <button class="color-d circule"><CiLocationOn style={{ fontSize:'30px'}}/></button>
+                        <h2 class="title-2">{props.locationName}</h2>
+                        <p class="followers">Location</p>
+                    </div>
+                </div>
             </div>
+            {/* <div className="formnew">
+            <button class="btn color-a top" onClick={clockin} style={{ display:buttondisplay}} > Clock In</button>
+            </div> */}
 
         </>
     )
