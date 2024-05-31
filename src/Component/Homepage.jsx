@@ -75,7 +75,7 @@ export default function Homepage() {
                         {isAuthenticated && (
                             <>
                                 <div className="logo">
-                                    <img src={logo} alt="" />
+                                    <img src={logo} alt="" style={{marginBottom:'50px'}}/>
                                 </div>
                                 <Profile /> 
                                 <Form {...queryParams} locationName={locationName} position={position} user={user}/> 
