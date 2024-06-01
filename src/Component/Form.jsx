@@ -249,7 +249,7 @@ export default function Form(props) {
                         (buttonstetus === true) ? <button class="btn color-a top" onClick={clock_out} style={{ display: buttondisplay }} > Clock Out</button> : <button class="btn color-a top" onClick={clockin} style={{ display: buttondisplay }} > Clock In</button>
 
                     }
-                    <hr class="hr-2" />
+                  
                 </div>
 
 
