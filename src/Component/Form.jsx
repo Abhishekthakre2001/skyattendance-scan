@@ -73,6 +73,7 @@ export default function Form(props) {
     const clockoutdata = {
         email: props.user.email,
         clockout: clockout,
+        todaydate: todaydate,
     }
     console.log("Checkin data", clockindata);
     console.log("Checkout data", clockoutdata)
@@ -128,6 +129,11 @@ export default function Form(props) {
         try {
             const getuserdata = await axios.get(`http://localhost:7000/button?email=${email}&date=${todaydate}`);
             console.log("button", getuserdata.data.result[0].clockout);
+            if(getuserdata.data.result[0].clockout === '02.00'){
+                setbuttondisplay("block");
+            }else{
+                setbuttondisplay("none");
+            }
             setbuttonstetus(true)
         } catch (error) {
             console.log(error);
