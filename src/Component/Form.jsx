@@ -183,7 +183,7 @@ export default function Form(props) {
         getusertime();
         button();
         checkqrcode();
-    }, []);
+    }, [getusertime, button, checkqrcode]);
     return (
         <>
             {validationurl ? (
