@@ -82,36 +82,38 @@ export default function Form(props) {
 
     const [validationurl, setvalidationurl] = useState(false)
 
-    const checkqrcode = () => {
-        const checkscancodetime = props.date;
-        console.log("firsttime", checkscancodetime);
-        const currentDate = new Date();
-        const formattedDate = currentDate.toLocaleString("en-US", {
-            month: "numeric",
-            day: "numeric",
-            year: "numeric",
-            hour: "numeric",
-            minute: "numeric",
-            second: "numeric",
-            hour12: true,
-        }).replace(/,/g, ""); // Remove the comma
+    useEffect(() => {
+        const checkqrcode = () => {
+            const checkscancodetime = props.date;
+            console.log("firsttime", checkscancodetime);
+            const currentDate = new Date();
+            const formattedDate = currentDate.toLocaleString("en-US", {
+                month: "numeric",
+                day: "numeric",
+                year: "numeric",
+                hour: "numeric",
+                minute: "numeric",
+                second: "numeric",
+                hour12: true,
+            }).replace(/,/g, ""); // Remove the comma
 
-        console.log("Formatted Date:", formattedDate);
-        const firstDate = new Date(checkscancodetime);
-        const secondDate = new Date(formattedDate);
+            console.log("Formatted Date:", formattedDate);
+            const firstDate = new Date(checkscancodetime);
+            const secondDate = new Date(formattedDate);
 
-        // Calculate the time difference in milliseconds
-        const timeDifferenceMs = secondDate - firstDate;
-        console.log("differance:", timeDifferenceMs, "ms");
-        if (timeDifferenceMs <= 72000) {
-            setvalidationurl(`ture`)
-            console.log("Correct QR Code ", validationurl);
-        } else {
-            setvalidationurl(false)
-            console.log("incorrect QR Code ", validationurl);
-        }
-
-    }
+            // Calculate the time difference in milliseconds
+            const timeDifferenceMs = secondDate - firstDate;
+            console.log("differance:", timeDifferenceMs, "ms");
+            if (timeDifferenceMs <= 72000) {
+                setvalidationurl(`ture`)
+                console.log("Correct QR Code ", validationurl);
+            } else {
+                setvalidationurl(false)
+                console.log("incorrect QR Code ", validationurl);
+            }
+        };
+        checkqrcode();
+    }, []);
 
     const clockin = async () => {
 
@@ -182,8 +184,8 @@ export default function Form(props) {
     useEffect(() => {
         getusertime();
         button();
-        checkqrcode();
-    }, [getusertime, button, checkqrcode]);
+
+    }, [getusertime, button]);
     return (
         <>
             {validationurl ? (
@@ -341,7 +343,7 @@ export default function Form(props) {
 
                 <>
                     <div className="invalidqr">
-                        <h1 style={{ fontFamily:"emoji"}}>Invalid QR Code Scan Again</h1>
+                        <h1 style={{ fontFamily: "emoji" }}>Invalid QR Code Scan Again</h1>
                         <img className="" src={invalidqr} alt="InvalidQR Scan Again" width={300} />
                     </div>
                 </>
