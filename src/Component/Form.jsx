@@ -1,14 +1,16 @@
-// import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../Style/Form.css';
 import axios from 'axios';
-import { useState } from 'react';
+// import { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { MdOutlineCalendarToday } from "react-icons/md";
 import { MdOutlineAccessTime } from "react-icons/md";
 import { CiLocationOn } from "react-icons/ci";
+import invalidqr from "../asset/invalidqr.avif"
 
 export default function Form(props) {
+    // const [validqr, setinvalidqr] = useState('block')
     let today = new Date();
     let todaydate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
 
@@ -78,8 +80,44 @@ export default function Form(props) {
     console.log("Checkin data", clockindata);
     console.log("Checkout data", clockoutdata)
 
+    const [validationurl, setvalidationurl] = useState(false)
+
+    const checkqrcode = () => {
+        const checkscancodetime = props.date;
+        console.log("firsttime", checkscancodetime);
+        const currentDate = new Date();
+        const formattedDate = currentDate.toLocaleString("en-US", {
+            month: "numeric",
+            day: "numeric",
+            year: "numeric",
+            hour: "numeric",
+            minute: "numeric",
+            second: "numeric",
+            hour12: true,
+        }).replace(/,/g, ""); // Remove the comma
+
+        console.log("Formatted Date:", formattedDate);
+        const firstDate = new Date(checkscancodetime);
+        const secondDate = new Date(formattedDate);
+
+        // Calculate the time difference in milliseconds
+        const timeDifferenceMs = secondDate - firstDate;
+        console.log("differance:", timeDifferenceMs, "ms");
+        if (timeDifferenceMs <= 72000) {
+            setvalidationurl(`ture`)
+            console.log("Correct QR Code ", validationurl);
+        } else {
+            setvalidationurl(false)
+            console.log("incorrect QR Code ", validationurl);
+        }
+
+    }
 
     const clockin = async () => {
+
+
+        // const timeDifference = currentTime - scannedTime;
+
         try {
             const savedata = await axios.post('http://localhost:7000/clockin', clockindata);
             console.log('Data saved successfully:', savedata);
@@ -108,7 +146,7 @@ export default function Form(props) {
     const getusertime = async () => {
         const email = props.user.email;
 
-        console.log("first", todaydate);
+        console.log("first", props.date);
 
         try {
             const getuserdata = await axios.get(`http://localhost:7000/getusertime?email=${email}`);
@@ -119,7 +157,7 @@ export default function Form(props) {
             console.log(error);
         }
     };
-    getusertime();
+
 
     const button = async () => {
         const email = props.user.email;
@@ -129,9 +167,9 @@ export default function Form(props) {
         try {
             const getuserdata = await axios.get(`http://localhost:7000/button?email=${email}&date=${todaydate}`);
             console.log("button", getuserdata.data.result[0].clockout);
-            if(getuserdata.data.result[0].clockout === '02.00'){
+            if (getuserdata.data.result[0].clockout === '02.00') {
                 setbuttondisplay("block");
-            }else{
+            } else {
                 setbuttondisplay("none");
             }
             setbuttonstetus(true)
@@ -140,12 +178,18 @@ export default function Form(props) {
         }
     };
 
-    button();
+    // console.log("form display", validqr)
+    useEffect(() => {
+        getusertime();
+        button();
+        checkqrcode();
+    }, []);
     return (
         <>
-            <div className="form" >
-                <ToastContainer />
-                {/* <div className="input-group input-group-sm mb-3">
+            {validationurl ? (
+                <div className="form"  >
+                    <ToastContainer />
+                    {/* <div className="input-group input-group-sm mb-3">
                     <div className="input-group-prepend">
                         <span className="input-group-text" id="inputGroup-sizing-sm">
                             Date
@@ -163,7 +207,7 @@ export default function Form(props) {
                     />
                 </div> */}
 
-                {/* <div className="input-group input-group-sm mb-3">
+                    {/* <div className="input-group input-group-sm mb-3">
                     <div className="input-group-prepend">
                         <span className="input-group-text" id="inputGroup-sizing-sm">
                             Time
@@ -181,7 +225,7 @@ export default function Form(props) {
                     />
                 </div> */}
 
-                {/* <div className="input-group input-group-sm mb-3">
+                    {/* <div className="input-group input-group-sm mb-3">
                     <div className="input-group-prepend">
                         <span className="input-group-text" id="inputGroup-sizing-sm">
                             Day
@@ -198,7 +242,7 @@ export default function Form(props) {
                     />
                 </div> */}
 
-                {/* <div className="input-group input-group-sm mb-3">
+                    {/* <div className="input-group input-group-sm mb-3">
                     <div className="input-group-prepend">
                         <span className="input-group-text" id="inputGroup-sizing-sm">
                             Lati.
@@ -215,7 +259,7 @@ export default function Form(props) {
                     />
                 </div> */}
 
-                {/* <div className="input-group input-group-sm mb-3">
+                    {/* <div className="input-group input-group-sm mb-3">
                     <div className="input-group-prepend">
                         <span className="input-group-text" id="inputGroup-sizing-sm">
                             Lon.
@@ -232,7 +276,7 @@ export default function Form(props) {
                     />
                 </div> */}
 
-                {/* <div className="input-group input-group-sm mb-3">
+                    {/* <div className="input-group input-group-sm mb-3">
                     <div className="input-group-prepend">
                         <span className="input-group-text" id="inputGroup-sizing-sm">
                             Loca.
@@ -249,44 +293,60 @@ export default function Form(props) {
                     />
                 </div> */}
 
-                <div className="buttons" >
+                    <div className="buttons" >
 
-                    {
-                        (buttonstetus === true) ? <button class="btn color-a top" onClick={clock_out} style={{ display: buttondisplay }} > Clock Out</button> : <button class="btn color-a top" onClick={clockin} style={{ display: buttondisplay }} > Clock In</button>
 
-                    }
-                  
+                        {
+                            (buttonstetus === true) ?
+                                <>
+                                    <button class="btn color-a top" onClick={clock_out} style={{ display: buttondisplay }} > Clock Out</button>
+                                </>
+                                :
+                                <>
+                                    <button class="btn color-a top" onClick={clockin} style={{ display: buttondisplay }} > Clock In</button>
+                                </>
+
+
+                        }
+
+                    </div>
+
+
+                    <div className="newformui">
+
+
+
+
+                        <div class="grid-2">
+                            <button class="color-b circule">
+                                <MdOutlineCalendarToday style={{ fontSize: '30px' }} />
+                            </button>
+                            <h2 class="title-2">{props.time}</h2>
+                            <p class="followers">Day</p>
+                        </div>
+                        <div class="grid-2">
+                            <button class="color-c circule"><MdOutlineAccessTime style={{ fontSize: '30px' }} /></button>
+                            <h2 class="title-2">{props.date}</h2>
+                            <p class="followers">Date Time</p>
+                        </div>
+                        <div class="grid-2">
+                            <button class="color-d circule"><CiLocationOn style={{ fontSize: '30px' }} /></button>
+                            <h2 class="title-2">{props.locationName}</h2>
+                            <p class="followers">Location</p>
+                        </div>
+                    </div>
                 </div>
 
+            ) : (
 
-                <div className="newformui">
-
-
-                    
-                    
-                    <div class="grid-2">
-                        <button class="color-b circule">
-                        <MdOutlineCalendarToday style={{ fontSize:'30px'}}/>
-                        </button>
-                        <h2 class="title-2">{props.time}</h2>
-                        <p class="followers">Day</p>
+                <>
+                    <div className="invalidqr">
+                        <h1 style={{ fontFamily:"emoji"}}>Invalid QR Code Scan Again</h1>
+                        <img className="" src={invalidqr} alt="InvalidQR Scan Again" width={300} />
                     </div>
-                    <div class="grid-2">
-                        <button class="color-c circule"><MdOutlineAccessTime style={{ fontSize:'30px'}}/></button>
-                        <h2 class="title-2">{props.date}</h2>
-                        <p class="followers">Date Time</p>
-                    </div>
-                    <div class="grid-2">
-                        <button class="color-d circule"><CiLocationOn style={{ fontSize:'30px'}}/></button>
-                        <h2 class="title-2">{props.locationName}</h2>
-                        <p class="followers">Location</p>
-                    </div>
-                </div>
-            </div>
-            {/* <div className="formnew">
-            <button class="btn color-a top" onClick={clockin} style={{ display:buttondisplay}} > Clock In</button>
-            </div> */}
-
+                </>
+            )
+            }
         </>
     )
 }

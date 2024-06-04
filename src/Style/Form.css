@@ -89,3 +89,10 @@ input{
     /* left: 56px; */
     /* padding: 0px 34px; */
       }        
+      .invalidqr{
+        position: absolute;
+        top: 360px;
+        /* left: 35%; */
+        z-index: 1;
+    
+      }
