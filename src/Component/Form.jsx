@@ -147,7 +147,6 @@ export default function Form(props) {
 
     
 
-    useEffect(() => {
     const button = async () => {
         const email = props.user.email;
 
@@ -167,10 +166,10 @@ export default function Form(props) {
         }
     };
     button();
-}, [ props.user.email, todaydate]);
+
 
     // console.log("form display", validqr)
-    useEffect(() => {
+  
         const getusertime = async () => {
             const email = props.user.email;
     
@@ -188,7 +187,6 @@ export default function Form(props) {
         getusertime();
    
 
-    }, [getusertime]);
     return (
         <>
             {validationurl ? (
