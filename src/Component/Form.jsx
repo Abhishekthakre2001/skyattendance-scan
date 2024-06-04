@@ -145,22 +145,9 @@ export default function Form(props) {
     }
 
 
-    const getusertime = async () => {
-        const email = props.user.email;
+    
 
-        console.log("first", props.date);
-
-        try {
-            const getuserdata = await axios.get(`http://localhost:7000/getusertime?email=${email}`);
-            console.log("getusertime", getuserdata.data.result[0].time);
-            console.log(clockout)
-            setusertime(getuserdata.data.result[0].time);
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-
+    useEffect(() => {
     const button = async () => {
         const email = props.user.email;
 
@@ -179,13 +166,29 @@ export default function Form(props) {
             console.log(error);
         }
     };
+    button();
+}, [ props.user.email, todaydate]);
 
     // console.log("form display", validqr)
     useEffect(() => {
+        const getusertime = async () => {
+            const email = props.user.email;
+    
+            console.log("first", props.date);
+    
+            try {
+                const getuserdata = await axios.get(`http://localhost:7000/getusertime?email=${email}`);
+                console.log("getusertime", getuserdata.data.result[0].time);
+                console.log(clockout)
+                setusertime(getuserdata.data.result[0].time);
+            } catch (error) {
+                console.log(error);
+            }
+        };
         getusertime();
-        button();
+   
 
-    }, [getusertime, button]);
+    }, [getusertime]);
     return (
         <>
             {validationurl ? (
