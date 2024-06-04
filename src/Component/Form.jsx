@@ -113,7 +113,7 @@ export default function Form(props) {
             }
         };
         checkqrcode();
-    }, []);
+    }, [props.date, validationurl]);
 
     const clockin = async () => {
 
