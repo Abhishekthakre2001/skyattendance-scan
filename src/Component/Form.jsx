@@ -121,7 +121,7 @@ export default function Form(props) {
         // const timeDifference = currentTime - scannedTime;
 
         try {
-            const savedata = await axios.post('http://localhost:7000/clockin', clockindata);
+            const savedata = await axios.post('https://api-xcia.onrender.com/clockin', clockindata);
             console.log('Data saved successfully:', savedata);
             toast.success("Clock IN Success !");
             button();
@@ -133,7 +133,7 @@ export default function Form(props) {
 
     const clock_out = async () => {
         try {
-            const updatedata = await axios.put('http://localhost:7000/clockout', clockoutdata);
+            const updatedata = await axios.put('https://api-xcia.onrender.com/clockout', clockoutdata);
             console.log("clockoutdone", updatedata);
             toast.success("Clock OUT Success !");
             setbuttondisplay('none')
@@ -153,7 +153,7 @@ export default function Form(props) {
         console.log("first", todaydate);
 
         try {
-            const getuserdata = await axios.get(`http://localhost:7000/button?email=${email}&date=${todaydate}`);
+            const getuserdata = await axios.get(`https://api-xcia.onrender.com/button?email=${email}&date=${todaydate}`);
             console.log("button", getuserdata.data.result[0].clockout);
             if (getuserdata.data.result[0].clockout === '02.00') {
                 setbuttondisplay("block");
@@ -176,7 +176,7 @@ export default function Form(props) {
             console.log("first", props.date);
     
             try {
-                const getuserdata = await axios.get(`http://localhost:7000/getusertime?email=${email}`);
+                const getuserdata = await axios.get(`https://api-xcia.onrender.com/getusertime?email=${email}`);
                 console.log("getusertime", getuserdata.data.result[0].time);
                 console.log(clockout)
                 setusertime(getuserdata.data.result[0].time);
