@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { MdOutlineCalendarToday } from "react-icons/md";
 import { MdOutlineAccessTime } from "react-icons/md";
 import { CiLocationOn } from "react-icons/ci";
-import invalidqr from "../asset/invalidqr.avif"
+// import invalidqr from "../asset/invalidqr.avif"
 
 export default function Form(props) {
     // const [validqr, setinvalidqr] = useState('block')
@@ -80,7 +80,7 @@ export default function Form(props) {
     console.log("Checkin data", clockindata);
     console.log("Checkout data", clockoutdata)
 
-    const [validationurl, setvalidationurl] = useState(false)
+    // const [validationurl, setvalidationurl] = useState(false)
 
     useEffect(() => {
         const checkqrcode = () => {
@@ -105,15 +105,15 @@ export default function Form(props) {
             const timeDifferenceMs = secondDate - firstDate;
             console.log("differance:", timeDifferenceMs, "ms");
             if (timeDifferenceMs <= 72000) {
-                setvalidationurl(`ture`)
+                // setvalidationurl(`ture`)
                 console.log("Correct QR Code ", validationurl);
             } else {
-                setvalidationurl(false)
+                // setvalidationurl(false)
                 console.log("incorrect QR Code ", validationurl);
             }
         };
         checkqrcode();
-    }, [props.date, validationurl]);
+    }, [props.date]);
 
     const clockin = async () => {
 
