@@ -189,7 +189,7 @@ export default function Form(props) {
 
     return (
         <>
-            {validationurl ? (
+{/*             {validationurl ? ( */}
                 <div className="form"  >
                     <ToastContainer />
                     {/* <div className="input-group input-group-sm mb-3">
@@ -340,7 +340,7 @@ export default function Form(props) {
                     </div>
                 </div>
 
-            ) : (
+{/*             ) : (
 
                 <>
                     <div className="invalidqr">
@@ -349,7 +349,7 @@ export default function Form(props) {
                     </div>
                 </>
             )
-            }
+            } */}
         </>
     )
 }
